@@ -1,1 +1,1 @@
-# Sistema de Upload e Gestão de Imagens :umbrella;
+# Sistema de Upload e Gestão de Imagens :umbrella:

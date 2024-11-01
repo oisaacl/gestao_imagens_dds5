@@ -1,6 +1,6 @@
 import path from 'path';
 import url from 'url';
-import { createImagem } from '../models/ImagemModel.js';
+import { createImagem, deletarImagem, readImagem, upadateImagem } from '../models/ImagemModel.js';
 
 
 
@@ -12,7 +12,7 @@ export async function criarImagem(req, res) {
     const { descricao } = req.body;
     const { imagem } = req.files;
 
-    if (descricao || !imagem) {
+    if (!descricao || !imagem) {
         res.status(400).json({ message: 'Imagem e descrição são obrigatórios' });
 
     } else {
@@ -41,6 +41,47 @@ export async function criarImagem(req, res) {
     }
 }
 
+export async function mostrarImagens(req, res) {
+    console.log('ImagemController :: Mostrando lista de Imagens');
+    try {
+        const [status, resposta] = await readImagem();
+        res.status(status).json(resposta);
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'ImagemController :: Erro' });
+    }
+}
+
+export async function editarImagem(req, res) {
+    console.log('Imagem Controller :: Editando uma Imagem');
+    const { id_imagem} = req.params;
+    const { descricao } = req.body;
+
+    try {
+        const [status, resposta] = await upadateImagem(descricao, id_imagem);
+        res.status(status).json(resposta);
+    } catch (error) {
+        console.log(error);
+        res.status(500)
+    }
+
+
+}
+
+
+export async function deletandoImagem(req,res) {
+    console.log('ImagemController :: Deletando imagem')
+    const {id_imagem } = await req.params;
+
+   try{
+        const [status, resposta] = await deletarImagem(id_imagem);
+        res.status(status).json(resposta);
+    }catch (error){
+        console.log(error);
+        res.status(500).json({message:'Imagem Controller :: error'})
+    }
+    
+}
 
 export async function mostrarImagem(req, res) {
     console.log('ImagemController :: Mostrando Imagem')

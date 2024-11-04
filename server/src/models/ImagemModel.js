@@ -78,7 +78,7 @@ export async function deletarImagem(id_imagem) {
 
 
     try {
-        const [imagem] = await conexao.query(sqlImagem,params);
+        const [imagem] = await conexao.query(imagemDeletada,params);
         if (imagem.length > 0){
             const nomeImg = imagem[0].caminho;
             await conexao.query(sql,params);
